@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>SANGCAHAYA.ID</h1>
+                <h2>TableServer</h2>
                 <div class="table-responsive">
                     <table class="table table-hover" id="table-pemesanan">
                         <thead>

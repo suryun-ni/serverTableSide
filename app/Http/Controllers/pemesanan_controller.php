@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\M_pemesanan;
 use DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class pemesanan_controller extends Controller
 {
@@ -31,5 +32,27 @@ class pemesanan_controller extends Controller
             $button .= '<a href="'.$url_hapus.'" class="btn btn-danger">Hapus</a>';
             return $button;
         })->rawColumns(['status','action'])->make(true);
+
     }
+        public function store(Request $request){
+            $validator = Validator::make($request->all(),[
+                'kamar' => 'required',
+                'user_id' => 'required',
+                'status' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+            $post = Post::create([
+                'kamar' => $request->kamar,
+                'user_id' => $request->user_id,
+                'status' => $request->status,
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Berhasil Disimpan!',
+                'data'    => $post  
+            ]);
+        }
+   
 }
