@@ -18,3 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/pemesanan/list',[pemesanan_controller::class,'index']);
+Route::get('/pemesanan/list/yajra',[pemesanan_controller::class,'yajra']);
