@@ -39,6 +39,7 @@
 </div>
 
 <script>
+    
     //button create post event
     $('body').on('click', '#btn-create-post', function () {
 
@@ -54,18 +55,18 @@
         let kamar   = $('#kamar').val();
         let user_id = $('#user_id').val();
         let status = $('#status').val();
-        let status   = $("meta[name='csrf-token']").attr("status");
+        // let token  = $("meta[name='csrf-token']").attr("status");
         //ajax
         $.ajax({
 
-            url: `/posts`,
-            type: "POST",
+            url: "{{url('/pemesanan/list')}}",
+            type: "get",
             cache: false,
             data: {
                 "kamar": kamar,
                 "user_id": user_id,
                 "status": status,
-                "_token": token
+                // "_token": token
             },
             success:function(response){
 
@@ -92,11 +93,12 @@
                 `;
                 
                 //append to table
-                $('#table-posts').prepend(post);
+                $('#table-pemesanan').prepend(index);
                 
                 //clear form
-                $('#title').val('');
-                $('#content').val('');
+                $('#kamar').val('');
+                $('#user_id').val('');
+                $('#status').val('');
 
                 //close modal
                 $('#modal-create').modal('hide');
@@ -105,24 +107,24 @@
             },
             error:function(error){
                 
-                if(error.responseJSON.title[0]) {
+                if(error.responseJSON.kamar[0]) {
 
                     //show alert
                     $('#alert-title').removeClass('d-none');
                     $('#alert-title').addClass('d-block');
 
                     //add message to alert
-                    $('#alert-title').html(error.responseJSON.title[0]);
+                    $('#alert-title').html(error.responseJSON.kamar[0]);
                 } 
 
-                if(error.responseJSON.content[0]) {
+                if(error.responseJSON.status[0]) {
 
                     //show alert
-                    $('#alert-content').removeClass('d-none');
+                    $('#alert-status').removeClass('d-none');
                     $('#alert-content').addClass('d-block');
 
                     //add message to alert
-                    $('#alert-content').html(error.responseJSON.content[0]);
+                    $('#alert-content').html(error.responseJSON.status[0]);
                 } 
 
             }
