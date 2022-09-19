@@ -59,7 +59,7 @@
         //ajax
         $.ajax({
 
-            url: "{{url('/pemesanan/list')}}",
+            url: "{{url('/pemesanan/list/create')}}",
             type: "get",
             cache: false,
             data: {
@@ -69,6 +69,7 @@
                 // "_token": token
             },
             success:function(response){
+                // console.log(response);
 
                 //show success message
                 Swal.fire({
@@ -80,20 +81,22 @@
                 });
 
                 //data post
-                let post = `
-                    <tr id="index_${response.data.id}">
-                        <td>${response.data.kamar}</td>
-                        <td>${response.data.user_id}</td>
-                        <td>${response.data.status}</td>
-                        <td class="text-center">
-                            <a href="javascript:void(0)" id="btn-edit-post" data-id="${response.data.id}" class="btn btn-primary btn-sm">EDIT</a>
-                            <a href="javascript:void(0)" id="btn-delete-post" data-id="${response.data.id}" class="btn btn-danger btn-sm">DELETE</a>
-                        </td>
-                    </tr>
-                `;
+    
+                // let post = `
+                //     <tr 
+                //     id="index_${response.data.id}">
+                //         <td>${response.data.kamar}</td>
+                //         <td>${response.data.user_id}</td>
+                //         <td>${response.data.status}</td>
+                //         <td class="text-center">
+                //             <a href="javascript:void(0)" id="btn-edit-post" data-id="${response.data.id}" class="btn btn-primary btn-sm">EDIT</a>
+                //             <a href="javascript:void(0)" id="btn-delete-post" data-id="${response.data.id}" class="btn btn-danger btn-sm">DELETE</a>
+                //         </td>
+                //     </tr>
+                // `;
                 
-                //append to table
-                $('#table-pemesanan').prepend(index);
+                // //append to table
+                // $('#table-pemesanan').prepend(posts);
                 
                 //clear form
                 $('#kamar').val('');

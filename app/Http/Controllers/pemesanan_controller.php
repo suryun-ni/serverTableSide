@@ -43,11 +43,12 @@ class pemesanan_controller extends Controller
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
             }
-            $post = Post::create([
+            $post = M_pemesanan::create([
                 'kamar' => $request->kamar,
                 'user_id' => $request->user_id,
                 'status' => $request->status,
             ]);
+            var_dump($post);
             return response()->json([
                 'success' => true,
                 'message' => 'Data Berhasil Disimpan!',

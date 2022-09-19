@@ -17,6 +17,6 @@ use App\Http\Controllers\pemesanan_controller;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('/pemesanan/list',[pemesanan_controller::class,'store']);
+Route::get('/pemesanan/list',[pemesanan_controller::class,'store']);
 Route::get('/pemesanan/list',[pemesanan_controller::class,'index']);
 Route::get('/pemesanan/list/yajra',[pemesanan_controller::class,'yajra']);
