@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\softDeletes;
+use App\Models\M_pemesanan;
 class M_pemesanan extends Model
 {
     use HasFactory;
     // use softDeletes;
     protected $table = 'pemesanan';
-    protected $fillbale = [
+    protected $fillable = [
         'kamar',
         'user_id',
         'status',

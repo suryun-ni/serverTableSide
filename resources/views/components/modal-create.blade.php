@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
 
-                <div class="form-group">
+            <div class="form-group">
                     <label for="name" class="control-label">Nama kamar</label>
                     <input type="text" class="form-control" id="kamar">
                     <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-title"></div>
@@ -25,13 +25,10 @@
                     <input type="text" class="form-control" id="status">
                     <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-title"></div>
                 </div>
-                
-
-                
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutup">TUTUP</button>
                 <button type="button" class="btn btn-primary" id="store">SIMPAN</button>
             </div>
         </div>
@@ -39,7 +36,6 @@
 </div>
 
 <script>
-    
     //button create post event
     $('body').on('click', '#btn-create-post', function () {
 
@@ -52,26 +48,24 @@
         e.preventDefault();
 
         //define variable
-        let kamar   = $('#kamar').val();
-        let user_id = $('#user_id').val();
-        let status = $('#status').val();
-        // let token  = $("meta[name='csrf-token']").attr("status");
+            var kamar   = $('#kamar').val();
+            var user_id = $('#user_id').val();
+            var status = $('#status').val();
+        
         //ajax
         $.ajax({
 
-            url: "{{url('/pemesanan/list/create')}}",
-            type: "get",
+            url: "{{ url('/pemesanan/list/post') }}",
+            type: "POST",
             cache: false,
+            dataType: 'json',
             data: {
-                "kamar": kamar,
-                "user_id": user_id,
-                "status": status,
-                // "_token": token
+                    "kamar": kamar,
+                    "user_id": user_id,
+                    "status": status,
             },
-            success:function(response){
-                // console.log(response);
-
-                //show success message
+                success:function(response){
+                    console.log(response);
                 Swal.fire({
                     type: 'success',
                     icon: 'success',
@@ -79,61 +73,36 @@
                     showConfirmButton: false,
                     timer: 3000
                 });
-
-                //data post
-    
-                // let post = `
-                //     <tr 
-                //     id="index_${response.data.id}">
-                //         <td>${response.data.kamar}</td>
-                //         <td>${response.data.user_id}</td>
-                //         <td>${response.data.status}</td>
-                //         <td class="text-center">
-                //             <a href="javascript:void(0)" id="btn-edit-post" data-id="${response.data.id}" class="btn btn-primary btn-sm">EDIT</a>
-                //             <a href="javascript:void(0)" id="btn-delete-post" data-id="${response.data.id}" class="btn btn-danger btn-sm">DELETE</a>
-                //         </td>
-                //     </tr>
-                // `;
                 
-                // //append to table
-                // $('#table-pemesanan').prepend(posts);
+                table.draw();
+
                 
                 //clear form
                 $('#kamar').val('');
                 $('#user_id').val('');
                 $('#status').val('');
-
+                
                 //close modal
                 $('#modal-create').modal('hide');
                 
+                
+               
+        
 
             },
-            error:function(error){
+            error: function (response) {
+                Swal.fire({
+                    type: 'error',
+                    icon: 'error',
+                    title: `${response.message}`,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
                 
-                if(error.responseJSON.kamar[0]) {
-
-                    //show alert
-                    $('#alert-title').removeClass('d-none');
-                    $('#alert-title').addClass('d-block');
-
-                    //add message to alert
-                    $('#alert-title').html(error.responseJSON.kamar[0]);
-                } 
-
-                if(error.responseJSON.status[0]) {
-
-                    //show alert
-                    $('#alert-status').removeClass('d-none');
-                    $('#alert-content').addClass('d-block');
-
-                    //add message to alert
-                    $('#alert-content').html(error.responseJSON.status[0]);
-                } 
-
-            }
+          }
 
         });
-
+            
     });
 
 </script>

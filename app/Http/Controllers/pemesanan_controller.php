@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\M_pemesanan;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+
 
 class pemesanan_controller extends Controller
 {
@@ -26,10 +28,8 @@ class pemesanan_controller extends Controller
                 return '<button class ="btn btn-secondary btn-xs">Empty</button>';
             }
         })->addColumn('action',function($data){
-            $url_edit = url('siswa/edit/'.$data->id);
-            $url_hapus = url('siswa/hapus/'.$data->id);
-            $button = '<a href="'.$url_edit.'" class="btn btn-primary">Edit</a>';
-            $button .= '<a href="'.$url_hapus.'" class="btn btn-danger">Hapus</a>';
+            $button = '<a href="javascript:void(0)" data-toggle="tooltip"  id="btn-edit-post"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editCustomer">Edit</a>';
+            $button .=' <a href="javascript:void(0)" data-toggle="tooltip" id="btn-delete-post"   data-id="'.$data->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteCustomer">Delete</a>';
             return $button;
         })->rawColumns(['status','action'])->make(true);
 
@@ -43,17 +43,65 @@ class pemesanan_controller extends Controller
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
             }
-            $post = M_pemesanan::create([
+            $post = M_pemesanan::updateOrCreate([
                 'kamar' => $request->kamar,
                 'user_id' => $request->user_id,
                 'status' => $request->status,
             ]);
-            var_dump($post);
+            
+            if ($post) {         
+                return response()->json([
+                    'success' => true,
+                    'data'=> $post,
+                    'message' => 'sukses',
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'gagal',
+                ], 401);
+            }
+        }
+        /**
+     * show
+     *
+     * @param  mixed $post
+     * @return void
+     */
+        public function show(M_pemesanan $M_pemesanan){
             return response()->json([
-                'success' => true,
-                'message' => 'Data Berhasil Disimpan!',
-                'data'    => $post  
+                'success'=>true,
+                'message'=>'Detail Data',
+                'data'=> $M_pemesanan
             ]);
         }
-   
+        /**
+     * update
+     *
+     * @param  mixed $request
+     * @param  mixed $M_pemesanan
+     * @return void
+     */
+        public function update(Request $request, M_pemesanan $M_pemesanan){
+            $validator = Validator::make($request->all(),[
+                'kamar' => 'required',
+                'user_id' => 'required',
+                'status' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+            $M_pemesanan->update([
+                'kamar' => $request->kamar,
+                'user_id' => $request->user_id,
+                'status' => $request->status,
+            ]);
+
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data berhasil di Update',
+                'data'=>$M_pemesanan,
+            ]);
+        }
 }
