@@ -47,7 +47,7 @@
         console.log("ini post id = " + post_id);
         //fetch detail post with ajax
         $.ajax({
-            url: "{{ url('pemesanan/list/id/${post_id}') }}",
+            url: `{{URL('pemesanan/list/id/${post_id}')}}`,
             type: "GET",
             cache: false,
             success:function(response){
@@ -80,7 +80,7 @@
         //ajax
         $.ajax({
 
-            url: "{{ url('pemesanan/list/edit/${id}') }}",
+            url: `{{URL('pemesanan/list/edit/${post_id}')}}`,
             type: "PUT",
             cache: false,
             data: {

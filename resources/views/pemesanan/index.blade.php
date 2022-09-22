@@ -75,6 +75,7 @@
 </div> -->
     @include('components.modal-create')
     @include('components.modal-update')
+    @include('components.modal-delete')
         </div>
     </div>
 

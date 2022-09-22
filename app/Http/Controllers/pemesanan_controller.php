@@ -68,7 +68,8 @@ class pemesanan_controller extends Controller
      * @param  mixed $post
      * @return void
      */
-        public function show(M_pemesanan $M_pemesanan){
+        public function show($id){
+            $M_pemesanan = M_pemesanan::find($id);
             return response()->json([
                 'success'=>true,
                 'message'=>'Detail Data',
@@ -82,7 +83,7 @@ class pemesanan_controller extends Controller
      * @param  mixed $M_pemesanan
      * @return void
      */
-        public function update(Request $request, M_pemesanan $M_pemesanan){
+        public function update(Request $request, $id){
             $validator = Validator::make($request->all(),[
                 'kamar' => 'required',
                 'user_id' => 'required',
@@ -91,7 +92,7 @@ class pemesanan_controller extends Controller
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
             }
-
+            $M_pemesanan = M_pemesanan::find($id);
             $M_pemesanan->update([
                 'kamar' => $request->kamar,
                 'user_id' => $request->user_id,
@@ -102,6 +103,15 @@ class pemesanan_controller extends Controller
                 'success'=>true,
                 'message'=>'Data berhasil di Update',
                 'data'=>$M_pemesanan,
+            ]);
+        }
+
+        public function destroy($id){
+            M_pemesanan::where('id', $id)->delete();
+
+            return response()->json([
+                'success'=> true,
+                'message'=> 'Data berhasil di hapus',
             ]);
         }
 }

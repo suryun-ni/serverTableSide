@@ -17,10 +17,11 @@ use App\Http\Controllers\pemesanan_controller;
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::resource('/list','pemesanan_controller');
 Route::post('/pemesanan/list/post',[pemesanan_controller::class,'store']);
-Route::get('pemesanan/list/id/{id}',[pemesanan_controller::class,'show']);
+Route::get('pemesanan/list/id/{id}',[pemesanan_controller::class,'show'])->name('ajax.request.store');
 Route::put('pemesanan/list/edit/{id}',[pemesanan_controller::class,'update']);
-Route::post('/pemesanan/list/hapus',[pemesanan_controller::class,'hapus']);
+Route::delete('/pemesanan/list/hapus/{id}',[pemesanan_controller::class,'destroy']);
 // Route::get('/pemesanan/list',[pemesanan_controller::class,'index']);
 Route::get('/pemesanan/list/yajra',[pemesanan_controller::class,'yajra']);
 Route::resource('/pemesanan/list',pemesanan_controller::class);
